@@ -9,6 +9,8 @@ from __future__ import unicode_literals
 
 import json
 import os
+import uuid
+
 
 from six import iteritems
 from six.moves.urllib.parse import urlencode
@@ -198,9 +200,17 @@ def accept(desk_form, data, doc_name=None):
 			elif not value and doc.get(fieldname):
 				files_to_delete.append(doc.get(fieldname))
 
+
+		if df and df.fieldtype == 'Table':
+			child_table_data = data.get(fieldname, [])
+			for child_row in child_table_data:
+				if not child_row.get('name') or child_row['name'].startswith('row '):
+					child_row['name'] = str(uuid.uuid4())
+			value = child_table_data		
+
 		doc.set(fieldname, value)
 
-	if doc.new:
+	if doc.is_new():
 		# insert
 		if desk_form.login_required and frappe.session.user == "Guest":
 			frappe.throw(_("You must login to submit this form"))
