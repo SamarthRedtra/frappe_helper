@@ -11,7 +11,6 @@ import json
 import os
 import uuid
 
-
 from six import iteritems
 from six.moves.urllib.parse import urlencode
 
