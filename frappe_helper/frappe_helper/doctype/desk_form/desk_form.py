@@ -199,7 +199,7 @@ def accept(desk_form, data, doc_name=None):
 			elif not value and doc.get(fieldname):
 				files_to_delete.append(doc.get(fieldname))
 
-
+		# all child table with row can be updated
 		if df and df.fieldtype == 'Table':
 			child_table_data = data.get(fieldname, [])
 			for child_row in child_table_data:
